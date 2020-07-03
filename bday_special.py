@@ -7,6 +7,12 @@ import webbrowser
 #import bday_bakend
 import os
 import os.path as OP
+#import os
+import sys
+import random
+import pkg_resources.py2_warn
+from PIL.Image import core as _imaging
+
 window=Tk()
 mixer.init()
 ####Create Menubar
@@ -101,13 +107,117 @@ def mykvta():
 	im = [myimg1, myimg2, myimg3 ]
 
 	
+def bpan_func():
+
+	myimg1= ImageTk.PhotoImage(Image.open("Pics/Bpan/pic1 (1).png").resize((350, 350), Image.ANTIALIAS))
+	myimg2= ImageTk.PhotoImage(Image.open("Pics/Bpan/pic1 (2).png").resize((350, 350), Image.ANTIALIAS))
+	myimg3= ImageTk.PhotoImage(Image.open("Pics/Bpan/pic1 (3).png").resize((350, 350), Image.ANTIALIAS))
+	myimg4= ImageTk.PhotoImage(Image.open("Pics/Bpan/pic1 (4).png").resize((350, 350), Image.ANTIALIAS))
+	myimg5= ImageTk.PhotoImage(Image.open("Pics/Bpan/pic1 (5).png").resize((350, 350), Image.ANTIALIAS))
+	myimg6= ImageTk.PhotoImage(Image.open("Pics/Bpan/pic1 (6).png").resize((350, 350), Image.ANTIALIAS))
+	myimg7= ImageTk.PhotoImage(Image.open("Pics/Bpan/pic1 (7).png").resize((350, 350), Image.ANTIALIAS))
+	myimg8= ImageTk.PhotoImage(Image.open("Pics/Bpan/pic1 (8).png").resize((350, 350), Image.ANTIALIAS))
+	myimg9= ImageTk.PhotoImage(Image.open("Pics/Bpan/pic1 (9).png").resize((350, 350), Image.ANTIALIAS))
+	
+	#mylabel1.grid_forget()
+	global mylabel1
+	mylabel1= Label(image=myimg1)
+	mylabel1.grid(row=0,column=0,columnspan=3)
+
+
+	global im
+	im = [myimg1, myimg2, myimg3, myimg4, myimg5,myimg6,myimg7,myimg8,myimg9]
 
 
 
 
 
-def test_func():              
 
+def test_func():
+	
+	path = './Pics/NBpan/'
+
+	global im
+	images = []
+
+	for dirname, dirnames, filenames in os.walk(path):
+	    # print path to all subdirectories first.
+	    # for subdirname in dirnames:
+	        # print os.path.join(dirname, subdirname)
+
+	    # print path to all filenames.
+	    for filename in filenames:
+	        file = os.path.join(dirname, filename)
+	        if '.jpg' in file.lower() or '.gif' in file.lower() or '.png' in file.lower():
+	            images.append(file)
+
+
+
+
+
+
+
+
+	random_max = random.randrange(10, len(images))
+	#print(random_max)
+	#print(len(im))
+	im = []
+	counter = 0
+	while counter < random_max:
+	    index = random.randrange(0, len(images))
+	    im.append(images[index])
+	    #print(images[index])
+	    images.pop(index)
+	    counter +=1 
+
+
+
+	#print(selection)
+
+
+	## Main window
+	#root = Tk()
+	## Grid sizing behavior in window
+	#root.grid_rowconfigure(0, weight=1)
+	#root.grid_columnconfigure(0, weight=1)
+	## Canvas
+	#cnv = Canvas(root)
+	#cnv.grid(row=0, column=0, sticky='nswe')
+	## Scrollbars for canvas
+	"""
+	hScroll = Scrollbar(root, orient=HORIZONTAL, command=cnv.xview)
+	hScroll.grid(row=1, column=0, sticky='we')
+	vScroll = Scrollbar(root, orient=VERTICAL, command=cnv.yview)
+	vScroll.grid(row=0, column=1, sticky='ns')
+	cnv.configure(xscrollcommand=hScroll.set, yscrollcommand=vScroll.set)
+	"""
+	## Frame in canvas
+	#frm = Frame(cnv)
+	## This puts the frame in the canvas's scrollable zone
+	#cnv.create_window(0, 0, window=frm, anchor='nw')
+	## Frame contents
+	global mylabel1
+	#global im
+	for s in im:
+	    imgs = Image.open(s).resize((350, 350), Image.ANTIALIAS)
+	    tkimage = ImageTk.PhotoImage(imgs)
+	    mylabel1=Label(image = tkimage,master= window)
+	    mylabel1.image = tkimage
+	    mylabel1.grid(row=0,column=0,columnspan=3)
+
+	## Update display to get correct dimensions
+	#frm.update_idletasks()
+	## Configure size of canvas's scrollable zone
+	#cnv.configure(scrollregion=(0, 0, frm.winfo_width(), frm.winfo_height()))
+	## Go!
+
+
+	#root.mainloop()   
+
+
+
+
+	"""
 	global im
 	im = []
 	i=0 
@@ -117,7 +227,7 @@ def test_func():
 			im.append(ImageTk.PhotoImage((Image.open(images).resize((380, 350), Image.ANTIALIAS))))
 			i=i+1
 
-
+	"""
 
  	####Different functions I need to define to display topic specific pics
 
@@ -141,10 +251,10 @@ def test_func():
 	
             
             
-	print(i)
-	global mylabel1
-	mylabel1= Label(image=im[0])
-	mylabel1.grid(row=0,column=0,columnspan=3)
+	#print(i)
+	#global mylabel1
+	#mylabel1= Label(image=im[0])
+	#mylabel1.grid(row=0,column=0,columnspan=3)
 
 
 
@@ -163,7 +273,8 @@ def forward(image_number):
 	global button_for
 	#mylabel.grid_forget()
 
-	mylabel= Label(image=im[image_number-1])
+	mylabel= Label(image=im[image_number-1],master = window)
+	mylabel.image= im[image_number-1]
 	button_for = Button(window, text= ">>",command= lambda:forward(image_number+1))
 	button_back = Button(window, text= "<<",command=  lambda: back(image_number-1) )
 
@@ -222,7 +333,7 @@ def diary():
 	top.mainloop()
 
 def Suchna():
-	tkinter.messagebox.showinfo('Jarurii Suchnaa!!',"Tu jo bhi type krke save kregi diary mein woh diary.txt namke file mein PC mein story ho jayega! \n So agr teko pdhneka mnn kre toh 'diary.txt' file search krna!!")
+	tkinter.messagebox.showinfo('Jarurii Suchnaa!!',"Tu jo bhi type krke save kregi diary mein woh diary.txt namke file mein PC mein save ho jayega! \n So agr teko pdhneka mnn kre toh 'diary.txt' file search krna!!")
 
 
 photo = ImageTk.PhotoImage(Image.open('Pics/play.png').resize((40, 40), Image.ANTIALIAS))
@@ -234,7 +345,7 @@ ply_btn.grid(row=0,column=3,sticky=S,pady=99)
 
 
 def msg():
-	tkinter.messagebox.showinfo("Happy Birthday Jaan","Wish you a lim(n→∞)(very)^n happiestttttt Birthdayyyyy Darloooo 🖤🖤🖤🖤!! \n You're the best person I've got in my life whom I can literally share anything and everything with! \n Can't thank God enough to bless me with you in my life!! I love youuu loadssss!!🖤🖤🖤 \n Abhi toh kalka poora din bcha hai sb yahipe pdhna h kya? \n 18 more to go sweetie!!!   ")
+	tkinter.messagebox.showinfo("Happy Birthday Jaan🖤🖤","Wish you a lim(n→∞)(very)^n Happiestttttt Birthdayyyyy Darloooo 🖤🖤🖤🖤!! \n Uk what you're the best person I've got in my life ! \n Can't thank God enough to bless me with you in my life!! I love youuu loadssss reeee!!🖤🖤🖤 \n Abhi toh kalka poora din bcha hai sb yahipe pdhna h kya? \n 18 more to go sweetie!!!   ")
 
 def warn():
 	tkinter.messagebox.showerror('Savdhan','Sunle betaa meko bhot pyaar ayewala terpe so na ab digest krle! I lub u !🖤🖤🖤')
@@ -247,6 +358,10 @@ def onClickdiary():
 
 def linkit():
 	webbrowser.open('https://khushbulalwani106.wixsite.com/khushuu',new=2)
+
+def vlink():
+	webbrowser.open('https://drive.google.com/drive/folders/1nCJMuuJztHcalRuKdI2E34Q68WRQDa0z?usp=sharing',new=2)
+
 
 def play_gaana():
 	webbrowser.open('https://gaana.com/',new=2)
@@ -272,7 +387,7 @@ subMenu.add_command(label= 'Ise kaise istemaal kre?',command=useithow)
 subMenu= Menu(menubar,tearoff=0)
 menubar.add_cascade(label='Pics',menu=subMenu)
 subMenu.add_command(label= 'You & Me (Itne kam yaar)',command= ynme)
-subMenu.add_command(label= 'Bachpan')
+subMenu.add_command(label= 'Bachpan',command=bpan_func)
 subMenu.add_command(label= 'Not Bachpan',command=test_func)
 subMenu.add_command(label= 'Yewale Meritarafse',command= mtfse)
 
@@ -283,8 +398,8 @@ subMenu.add_command(label= 'Meriwali tereliye', command=  mykvta)
 
 subMenu= Menu(menubar,tearoff=0)
 menubar.add_cascade(label='Gaane',menu=subMenu)
-subMenu.add_command(label= 'Tu Gayewale')
-subMenu.add_command(label= 'Jo tere gaane bche hai')
+subMenu.add_command(label= 'Tu Gayewale',command=vlink)
+#subMenu.add_command(label= 'Jo tere gaane bche hai')
 subMenu.add_command(label= 'Jo teko isi moment sunneka mann krra',command=play_gaana)
 
 subMenu= Menu(menubar,tearoff=0)
@@ -302,7 +417,7 @@ subMenu.add_command(label= 'Jaruri Suchnaa',command=Suchna)
 
 window.title('Happppyyyy Birthdayyyy Darlooo!!')
 #window.iconbitmap('./index.png')   ## To create icon on window
-window.geometry("500x400")
+window.geometry("480x400")
 
 
 button_back = Button(window, text= "<<",command=  back ,state=DISABLED)
@@ -313,18 +428,6 @@ button_back.grid(row=1,column=0)
 button_for.grid(row=1, column=2)
 
 button_exit.grid(row=1,column=1)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 window.mainloop()
